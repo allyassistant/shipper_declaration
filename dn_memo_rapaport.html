@@ -143,9 +143,17 @@
         }
         
         function lookupRapaport(shape, carat, color, clarity) {
-            if (shape && shape.toLowerCase().indexOf("round") === -1) return null;
-            const range = getCaratRange(carat);
-            const rapData = RAPAPORT.round[range];
+            // Detect shape
+            const shapeLower = shape ? shape.toLowerCase() : "";
+            let rapData = null;
+            
+            if (shapeLower.indexOf("round") !== -1) {
+                rapData = RAPAPORT.round[getCaratRange(carat)];
+            } else if (shapeLower.indexOf("pear") !== -1 || shapeLower.indexOf("pearl") !== -1) {
+                rapData = RAPAPORT.pear[getCaratRange(carat)];
+            }
+            
+            if (!rapData) return null;
             if (!rapData || !rapData[color] || !rapData[color][clarity]) return null;
             return rapData[color][clarity];
         }
