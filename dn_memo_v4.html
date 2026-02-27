@@ -108,9 +108,13 @@
             
             <!-- Total -->
             <div class="form-row" style="margin-top: 15px; justify-content: flex-end;">
-                <div class="form-group" style="max-width: 150px;">
+                <div class="form-group" style="max-width: 120px;">
                     <label>Total Carat:</label>
                     <input type="number" name="totalCarat" id="totalCarat" step="0.01" readonly style="font-weight: bold;">
+                </div>
+                <div class="form-group" style="max-width: 150px;">
+                    <label>Total Amount:</label>
+                    <input type="number" name="totalAmount" id="totalAmount" step="0.01" readonly style="font-weight: bold;">
                 </div>
             </div>
             
@@ -136,7 +140,7 @@
         
         async function loadPDFTemplate() {
             try {
-                const response = await fetch('https://raw.githubusercontent.com/allyassistant/shipper_declaration/main/memo_new.pdf');
+                const response = await fetch('https://raw.githubusercontent.com/allyassistant/shipper_declaration/main/memo_v5.pdf');
                 pdfBytes = await response.arrayBuffer();
                 console.log('PDF template loaded');
             } catch (e) {
@@ -199,13 +203,19 @@
         
         function calculateTotal() {
             var totalCarat = 0;
+            var totalAmount = 0;
             for (var i = 1; i <= MAX_ROWS; i++) {
                 var caratInput = document.getElementById('carat' + i);
                 if (caratInput && caratInput.value) {
                     totalCarat += parseFloat(caratInput.value) || 0;
                 }
+                var amountInput = document.getElementById('amount' + i);
+                if (amountInput && amountInput.value) {
+                    totalAmount += parseFloat(amountInput.value) || 0;
+                }
             }
             document.getElementById('totalCarat').value = totalCarat.toFixed(2);
+            document.getElementById('totalAmount').value = totalAmount.toFixed(2);
         }
         
         async function downloadPDF() {
@@ -219,7 +229,8 @@
             formData['Tel'] = document.getElementById('tel').value || '';
             formData['Dealer'] = document.getElementById('dealer').value || '';
             formData['Details'] = document.getElementById('details').value || '';
-            formData['Total Carat'] = document.getElementById('totalCarat').value || '';
+            'Total Carat']: document.getElementById('totalCarat').value || '',
+            formData['Total Amount'] = document.getElementById('totalAmount').value || '';
             
             // Item fields
             for (var i = 1; i <= MAX_ROWS; i++) {
