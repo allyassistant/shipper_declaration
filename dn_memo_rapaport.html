@@ -147,9 +147,10 @@
             const shapeLower = shape ? shape.toLowerCase() : "";
             let rapData = null;
             
+            // If round, use round rapaport; otherwise use pear rapaport
             if (shapeLower.indexOf("round") !== -1) {
                 rapData = RAPAPORT.round[getCaratRange(carat)];
-            } else if (shapeLower.indexOf("pear") !== -1 || shapeLower.indexOf("pearl") !== -1) {
+            } else {
                 rapData = RAPAPORT.pear[getCaratRange(carat)];
             }
             
