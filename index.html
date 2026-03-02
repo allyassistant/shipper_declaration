@@ -168,7 +168,7 @@
         
         function downloadPDF() {
             var jsPDF = window.jspdf.jsPDF;
-            var doc = new jsPDF();
+            var doc = new jsPDF('p', 'mm', 'a4');  // Portrait, millimeters, A4 size
             var form = document.getElementById('declarationForm');
             var formData = new FormData(form);
             var company = document.getElementById('companyName').value;
